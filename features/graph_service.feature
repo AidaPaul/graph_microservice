@@ -9,6 +9,7 @@ Feature: Operating on graphs as service
     Then we should be succesfull
 
 
+  @graph-service
   @dev-only
   Scenario Outline: Creating nodes
     Given that we try to create a "<kind>" node with "<uid>", "<date>" and "<name>"
@@ -26,6 +27,7 @@ Feature: Operating on graphs as service
       | hypothesis  | 2     |           | possible    |
 
 
+  @graph-service
   @dev-only
   Scenario Outline: Connecting nodes
     Given a set of nodes present in the service
@@ -47,11 +49,14 @@ Feature: Operating on graphs as service
         | second_obs  | second_hypo | 0.3     |
 
 
+  @graph-service
+  @dev-only
   Scenario: Retrieving empty set of nodes
     Given that we try to retrieve nodes for non-existing dimension "Phnglui"
     Then we should receive an empty set
 
 
+  @graph-service
   @dev-only
   Scenario Outline: Retrieving sets of nodes
     Given a set of nodes present in the service
@@ -69,6 +74,7 @@ Feature: Operating on graphs as service
         | hypothesis  | 2         |
 
 
+  @graph-service
   @dev-only
   Scenario: Retrieving printout for all nodes and their connections
     Given a set of nodes present in the service
