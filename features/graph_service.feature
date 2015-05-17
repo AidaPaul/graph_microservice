@@ -23,8 +23,8 @@ Feature: Operating on graphs as service
 
     Examples: Hypothesis
       | kind        | uid   | date      | name        |
-      | hypothesis  | 1     |           | impossible  |
-      | hypothesis  | 2     |           | possible    |
+      | hypothesis  | 3     |           | impossible  |
+      | hypothesis  | 4     |           | possible    |
 
 
   @graph-service
@@ -34,8 +34,8 @@ Feature: Operating on graphs as service
       | kind        | uid   | date      | name        | code_name   |
       | observation | 1     | 20150110  |             | first_obs   |
       | observation | 2     | 20150115  |             | second_obs  |
-      | hypothesis  | 1     |           | impossible  | first_hypo  |
-      | hypothesis  | 2     |           | possible    | second_hypo |
+      | hypothesis  | 3     |           | impossible  | first_hypo  |
+      | hypothesis  | 4     |           | possible    | second_hypo |
     When we try to connect result "<result>" with a given "<assumption>" and set weight to "<weight>"
     Then we should receive None response
     """
@@ -43,7 +43,7 @@ Feature: Operating on graphs as service
     """
 
       Examples:
-        | result      | assumption       | weight  |
+        | result      | assumption  | weight  |
         | first_obs   | first_hypo  | 0.1     |
         | first_obs   | second_hypo | 0.2     |
         | second_obs  | second_hypo | 0.3     |
@@ -63,8 +63,8 @@ Feature: Operating on graphs as service
       | kind        | uid   | date      | name        | code_name   |
       | observation | 1     | 20150110  |             | first_obs   |
       | observation | 2     | 20150115  |             | second_obs  |
-      | hypothesis  | 1     |           | impossible  | first_hypo  |
-      | hypothesis  | 2     |           | possible    | second_hypo |
+      | hypothesis  | 3     |           | impossible  | first_hypo  |
+      | hypothesis  | 4     |           | possible    | second_hypo |
     When when we try to retrieve nodes for dimension "<dimension>"
     Then count of elements returned should be "<set_count>"
 
@@ -81,8 +81,8 @@ Feature: Operating on graphs as service
       | kind        | uid   | date      | name        | code_name   |
       | observation | 1     | 20150110  |             | first_obs   |
       | observation | 2     | 20150115  |             | second_obs  |
-      | hypothesis  | 1     |           | impossible  | first_hypo  |
-      | hypothesis  | 2     |           | possible    | second_hypo |
+      | hypothesis  | 3     |           | impossible  | first_hypo  |
+      | hypothesis  | 4     |           | possible    | second_hypo |
     When we retrieve string representation of nodes and their connections
     Then it should match match the representational string
     """
