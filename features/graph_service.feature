@@ -13,8 +13,7 @@ Feature: Operating on graphs as service
   @dev-only
   Scenario Outline: Creating nodes
     Given that we try to create a "<kind>" node with "<uid>", "<date>" and "<name>"
-    Then we should receive new node details back
-    And they should match with "<kind>", "<uid>", "<date>" and "<name>"
+    Then we should receive positive response
 
     Examples: Observations
       | kind        | uid   | date      | name        |

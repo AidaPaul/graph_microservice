@@ -21,13 +21,22 @@ Vagrant.configure(2) do |config|
 
   # Very crude provisioning, normally I would do it with either chef or ansible
   config.vm.provision "shell", inline: <<-SHELL
+    # Rabbitmq debs
+    echo "deb http://www.rabbitmq.com/debian/ testing main"  | sudo tee  /etc/apt/sources.list.d/rabbitmq.list > /dev/null
+    sudo wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+    sudo apt-key add rabbitmq-signing-key-public.asc
+
     # Bootstrap python3 env with pip and docker
     sudo apt-get update
     sudo apt-get install -y git
     sudo apt-get install -y python3-dev
     sudo apt-get install -y docker
-    wget https://bootstrap.pypa.io/get-pip.py &> /dev/null
+    sudo apt-get install -y redis-server
+    sudo apt-get install rabbitmq-server -y
+    wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py &> /dev/null
     sudo python3 get-pip.py
+    sudo service rabbitmq-server start
+    sudo service redis start
 
     # App requirements
     sudo pip3 install -r /opt/graph_microservice/requirements.txt

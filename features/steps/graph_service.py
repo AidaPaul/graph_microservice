@@ -134,3 +134,11 @@ def step_impl(context):
     :type context behave.runner.Context
     """
     pass
+
+
+@then("we should receive positive response")
+def step_impl(context):
+    """
+    :type context behave.runner.Context
+    """
+    pass

@@ -1,10 +1,6 @@
 __author__ = 'Tymoteusz Paul'
 from graph import Graph, Node, SimpleDimensions
 
-from thrift.transport import TSocket, TTransport
-from thrift.protocol import TBinaryProtocol
-from thrift.server import TServer
-
 import logging
 
 import settings
@@ -22,6 +18,15 @@ class GraphService:
         self.nodes = {}
 
     def update_node(self, uid, kind, **kwargs) -> bool:
+        if kind is not str:
+            return False
+        elif kind == 'hypothesis':
+            kind = SimpleDimensions.HYPOTHESIS
+        elif kind == 'observation':
+            kind = SimpleDimensions.OBSERVATION
+        else:
+            return False
+
         try:
             self.nodes[uid] = Node(uid, kind, **kwargs)
             return True
