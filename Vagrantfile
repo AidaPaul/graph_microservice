@@ -38,12 +38,20 @@ Vagrant.configure(2) do |config|
     sudo service rabbitmq-server start
     sudo service redis start
 
+    # Build daemonize
+    git clone git://github.com/bmc/daemonize.git
+    cd daemonize
+    sh configure
+    make
+    sudo make install
+    cd ~
+
     # App requirements
     sudo pip3 install -r /opt/graph_microservice/requirements.txt
 
     # Run our docker apps
     # Actually for now just run our apps
     cd /opt/graph_microservice
-    celery -A service worker --loglevel=info
+    daemonize -p /opt/graph_microservice/service.pid /usr/local/bin/celery -A service worker --loglevel=info --logfile=/tmp/service.log
   SHELL
 end
