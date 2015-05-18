@@ -42,5 +42,8 @@ Vagrant.configure(2) do |config|
     sudo pip3 install -r /opt/graph_microservice/requirements.txt
 
     # Run our docker apps
+    # Actually for now just run our apps
+    cd /opt/graph_microservice
+    celery -A service worker --loglevel=info
   SHELL
 end

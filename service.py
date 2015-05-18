@@ -5,11 +5,16 @@ import logging
 
 import settings
 
+from celery import Celery
+from celery.contrib.methods import task
+
 service_logger = logging.getLogger('service_logger')
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(settings.logging_format)
 service_logger.addHandler(stream_handler)
 
+app = Celery(broker='amqp://guest@localhost//',
+             backend='redis://localhost')
 
 class GraphService:
     def __init__(self, hypothesis_kind=SimpleDimensions.HYPOTHESIS,
@@ -17,6 +22,7 @@ class GraphService:
         self.graph = Graph(hypothesis_kind, observation_kind)
         self.nodes = {}
 
+    @task()
     def update_node(self, uid, kind, **kwargs) -> bool:
         if kind is not str:
             return False
@@ -33,15 +39,19 @@ class GraphService:
         except AttributeError:
             return False
 
+    @task()
     def connect_nodes(self, result, assumption, relationship=None) -> bool:
         raise NotImplementedError
 
+    @task()
     def get_nodes(self) -> dict:
         return self.nodes
 
+    @task()
     def get_nodes_from_graph(self, dimension) -> set:
         raise NotImplementedError
 
+    @task()
     def get_graph_printout(self) -> str:
         return str(self.graph)
 
