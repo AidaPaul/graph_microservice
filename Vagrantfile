@@ -53,5 +53,6 @@ Vagrant.configure(2) do |config|
     # Actually for now just run our apps
     cd /opt/graph_microservice
     #daemonize /usr/local/bin/celery -A service worker --concurrency=10 --time-limit=20 --loglevel=info --logfile=/tmp/service.log
+    daemonize /usr/bin/python3 /opt/graph_microservice/server.py
   SHELL
 end
