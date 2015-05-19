@@ -2,19 +2,21 @@ __author__ = 'Tymoteusz Paul'
 
 from bottle import post, request, get, run, HTTPError
 import settings
+import pickle
+from base64 import b64encode
 from service import GraphService
 
 @get('/nodes')
 def get_nodes():
-    return GraphService().get_nodes()
+    return {'nodes': b64encode(pickle.dumps(GraphService().get_nodes())).decode('utf-8')}
 
 @get('/nodes_from_graph/<dimension>')
 def get_nodes_from_graph(dimension):
-    return GraphService().get_nodes_from_graph(dimension)
+    return {'nodes':  b64encode(pickle.dumps(GraphService().get_nodes_from_graph(dimension))).decode('utf-8')}
 
 @get('/graph_printout')
 def get_grph_printout():
-    return GraphService().get_graph_printout()
+    return {'printout': GraphService().get_graph_printout()}
 
 @post('/nodes')
 def post_nodes():

@@ -11,7 +11,7 @@ bottle_server = {
     'host': '0.0.0.0',
     'port': 9191,
     'debug': True,
-   # 'server': 'cherrypy',
+    'server': 'cherrypy',
 }
 
 rest_prefix = 'http://127.0.0.1:%s' % bottle_server['port']
