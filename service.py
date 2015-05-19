@@ -26,7 +26,7 @@ class GraphService:
         else:
             self.graph = self.get_new_graph()
         if 'nodes' in redis_connection:
-            self.nodes = pickle.loads(redis_connection.get('graph'))
+            self.nodes = pickle.loads(redis_connection.get('nodes'))
         else:
             self.nodes = self.get_new_nodes()
 
