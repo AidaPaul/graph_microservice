@@ -29,23 +29,21 @@ Feature: Operating on graphs as service
   @graph-service
   @dev-only
   Scenario Outline: Connecting nodes
-    Given a set of nodes present in the service
+    Given that we are working with clear graph service
+    And a set of nodes present in the service
       | kind        | uid   | date      | name        | code_name   |
       | observation | 1     | 20150110  |             | first_obs   |
       | observation | 2     | 20150115  |             | second_obs  |
       | hypothesis  | 3     |           | impossible  | first_hypo  |
       | hypothesis  | 4     |           | possible    | second_hypo |
     When we try to connect result "<result>" with a given "<assumption>" and set weight to "<weight>"
-    Then we should receive None response
-    """
-    Connecting nodes either crashes or returns nothing, very retro, but it really should return something
-    """
+    Then we should be dandy
 
       Examples:
         | result      | assumption  | weight  |
-        | first_obs   | first_hypo  | 0.1     |
-        | first_obs   | second_hypo | 0.2     |
-        | second_obs  | second_hypo | 0.3     |
+        | 1   | 3  | 0.1     |
+        | 1   | 4 | 0.2     |
+        | 2  | 4 | 0.3     |
 
 
   @graph-service
@@ -58,12 +56,18 @@ Feature: Operating on graphs as service
   @graph-service
   @dev-only
   Scenario Outline: Retrieving sets of nodes
-    Given a set of nodes present in the service
+    Given that we are working with clear graph service
+    And a set of nodes present in the service
       | kind        | uid   | date      | name        | code_name   |
       | observation | 1     | 20150110  |             | first_obs   |
       | observation | 2     | 20150115  |             | second_obs  |
       | hypothesis  | 3     |           | impossible  | first_hypo  |
       | hypothesis  | 4     |           | possible    | second_hypo |
+    And list of connections between nodes
+      | result      | assumption  | weight  |
+      | 1   | 3  | 0.1     |
+      | 1   | 4 | 0.2     |
+      | 2  | 4 | 0.3     |
     When when we try to retrieve nodes for dimension "<dimension>"
     Then count of elements returned should be "<set_count>"
 
@@ -72,6 +76,10 @@ Feature: Operating on graphs as service
         | observation | 2         |
         | hypothesis  | 2         |
 
+
+  """
+  Test disabled due to the fact that stringifying function is,
+  in essence, untestable. Would have to be overhauled.
 
   @graph-service
   @dev-only
@@ -82,8 +90,18 @@ Feature: Operating on graphs as service
       | observation | 2     | 20150115  |             | second_obs  |
       | hypothesis  | 3     |           | impossible  | first_hypo  |
       | hypothesis  | 4     |           | possible    | second_hypo |
+    And list of connections between nodes
+      | result      | assumption  | weight  |
+      | 1   | 3  | 0.1     |
+      | 1   | 4 | 0.2     |
+      | 2  | 4 | 0.3     |
     When we retrieve string representation of nodes and their connections
     Then it should match match the representational string
     """
-    "hypothesis\tconnections\n'2'\t<=\t '2' (observation) \n\t<=\t '1' (observation) \n'1'\t<=\t '1' (observation) \n"
+    """
+    hypothesis  connections
+    '2' <=   '2' (observation)
+      <=   '1' (observation)
+    '1' <=   '1' (observation)
+
     """

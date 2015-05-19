@@ -52,6 +52,6 @@ Vagrant.configure(2) do |config|
     # Run our docker apps
     # Actually for now just run our apps
     cd /opt/graph_microservice
-    daemonize -p /opt/graph_microservice/service.pid /usr/local/bin/celery -A service worker --loglevel=info --logfile=/tmp/service.log
+    #daemonize /usr/local/bin/celery -A service worker --concurrency=10 --time-limit=20 --loglevel=info --logfile=/tmp/service.log
   SHELL
 end
