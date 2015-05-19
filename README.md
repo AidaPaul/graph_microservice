@@ -1,6 +1,17 @@
 # graph_microservice
 Budyfying the md graph
 
+## Installation
+1. Get vagrant
+2. `vagrant up`
+3. `vagrant ssh -c 'behave /opt/graph_microservice/features'
+4. If any of the tests failed, most likely celery refused to boot up (god knows why)
+In that case just drop down to SSH and launch `screen -d -m celery -A service worker --loglevel=info --concurrency=10`
+5. Enjoy, if your network is configured correctly you will be able to access the webservice at 127.0.0.1:9090
+or VM_IP:9191
+
+
+#### The task content
 Description
 Write an operational microservice in Python that converts a Your.MD Graph 1 into a service.
 We need:

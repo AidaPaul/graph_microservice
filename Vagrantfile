@@ -32,11 +32,11 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -y python3-dev
     sudo apt-get install -y docker
     sudo apt-get install -y redis-server
-    sudo apt-get install rabbitmq-server -y
+    sudo apt-get install -y rabbitmq-server
     wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py &> /dev/null
     sudo python3 get-pip.py
     sudo service rabbitmq-server start
-    sudo service redis start
+    sudo service redis-server start
 
     # Build daemonize
     git clone git://github.com/bmc/daemonize.git
@@ -48,11 +48,12 @@ Vagrant.configure(2) do |config|
 
     # App requirements
     sudo pip3 install -r /opt/graph_microservice/requirements.txt
+  SHELL
 
-    # Run our docker apps
+  config.vm.provision "shell", inline: <<-SHELL
     # Actually for now just run our apps
     cd /opt/graph_microservice
-    daemonize /usr/local/bin/celery -A service worker --concurrency=10 --time-limit=20 --loglevel=info --logfile=/tmp/service.log
+    screen -d -m celery -A service worker --loglevel=info --concurrency=10
     daemonize /usr/bin/python3 /opt/graph_microservice/server.py
   SHELL
 end
